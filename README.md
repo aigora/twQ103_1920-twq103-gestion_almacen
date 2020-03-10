@@ -1,4 +1,4 @@
-# Título del trabajo
+## Titulo del trabajo 
 GESTIÓN DE ALMACEN
 
 Gestión de  un  almacen, control de inventario, gestion de nivel minimo de articulos, gestión de pedidos para reposición.
