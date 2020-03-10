@@ -11,5 +11,5 @@ Sergio Torres Madrazo;sergio.torres.madrazo@alumnos.upm.es  Alejandro  Tejedor M
 Realizar una aplicación  informatica  para gestiuon de un almacen de producto
 * Dar de alta articulos con descripcion y ubicacion en el almacen.
 * Fijar un nivel m inimo por articulo para reponerlo .
-* Poder relizarel correspondiente contro de inventario periodico. 
+* Poder relizar  un control periodico  de inventario.
 
