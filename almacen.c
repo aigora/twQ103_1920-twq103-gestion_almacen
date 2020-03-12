@@ -108,8 +108,8 @@ switch(opcion)
 			printf("\n\t\t\t");
 			printf("\n\t\tSergio Torres Madrazo & Alejandro Tejedor Moreno (Copyright 2020) ");
 			printf("\n=============================================================================================");
-			printf("\n\n\n\t\t\tMENU MANTENIMIENTO \n\t\t\t============ \n\n\n\t\t10-Recuperar articulos borrados.Borrado fisico de articulos .\n\n \t\t20-Copia de seguridad.");
-			printf("\n\n \t\t30-\n\n \t\t\n\n\n\t\t90-VOLVER MENU ANTERIOR \n");
+			printf("\n\n\n\t\t\tMENU MANTENIMIENTO \n\t\t\t============ \n\n\n\t\t10-Recuperar articulos borrados.\n\n \t\t20-Copia de seguridad.");
+			printf("\n\n \t\t30-Borrado fisico de articulos.\n\n \t\t\n\n\n\t\t90-VOLVER MENU ANTERIOR \n");
 			printf("\n---------------------------------------------------------------------------------------------");
 			printf("\nTeclee la opcion deseada: ");
 			scanf(" %d",&opcion);
