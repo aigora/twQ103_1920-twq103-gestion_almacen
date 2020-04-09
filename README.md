@@ -4,7 +4,7 @@ GESTIÓN DE ALMACEN
 Gestión de  un  almacen, control de inventario, gestion de nivel minimo de articulos, gestión de pedidos para reposición.
 
 ## Integrantes del equipo
-Sergio Torres Madrazo;sergiotorresmadrazo  Alejandro  Tejedor Moreno ;alejandrotejedormoreno
+Sergio Torres Madrazo;sergiotorresmadrazo y Alejandro  Tejedor Moreno ;alejandrotejedormoreno
 
 
 ## Objetivos del trabajo 

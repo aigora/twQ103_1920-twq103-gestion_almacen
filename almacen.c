@@ -5,7 +5,7 @@ int main()
 {
 	int opcion; //variable para la opcion del menu de inicio//
        
-    
+    //
 
 /*system ("color xx"); - Esto cambia el color del fondo y el texto en la ventana de resultados.
  El primer número controla el color de fondo y
