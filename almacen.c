@@ -13,21 +13,18 @@ void m_mantenimiento();
 void agregar_articulos ();
 void listar_productos();
 void copia_seguridad();
-
-
+void inicializar_almacen();
 
 struct articulos {
-	char cod_art[10];
-	char descripcion[25];
-	char ubicacion[6];
+	int cod_art;
+	char descripcion[35];
+	int ubicacion;
 	int existencias;
 	int nivel_min;
 	int unid_pedido_min;
 	float precio;
-	char fabricante[20];
 	};
 	
-typedef struct articulos tarticulos;
 
 int main()
 {
@@ -108,8 +105,8 @@ void m_articulos (){
 			
 			banner();
 			
-			printf("\n\n\n\t\t\t\tMENU ARTICULOS \n\t\t\t\t============== \n\n\n \t\t10-Alta de un articulo en almacen.\n\n \t\t20-Modificar un articulo en almacen (no implementadado).");
-			printf("\n\n \t\t30-Baja de un articulo en almacen (no implementadado).\n\n\n\t\t90-VOLVER MENU ANTERIOR \n");
+			printf("\n\n\n\t\t\t\tMENU ARTICULOS \n\t\t\t\t============== \n\n \t\t10-Inicializar fichero almacen.\n\n \t\t20-Alta de un articulo en almacen.\n\n \t\t30-Modificar un articulo en almacen (no implementadado).");
+			printf("\n\n \t\t40-Baja de un articulo en almacen (no implementadado). \n\n\n\t\t90-VOLVER MENU ANTERIOR \n");
 			printf("\n---------------------------------------------------------------------------------------------");
 			printf("\nTeclee la opcion deseada:  [  ]\b\b\b"); //conseguimos meter la opccion entre llaves y mejorar el entorno visual//
 			scanf(" %i",&opcion);
@@ -117,10 +114,10 @@ void m_articulos (){
 				switch(opcion)
 {				
 	
-					case 10: agregar_articulos();	break;
-					case 20: 		break;
-					case 30: 		break;
-					
+					case 10: 	inicializar_almacen();	break;
+					case 20: 	agregar_articulos ();	break;
+					case 30: 							break;
+					case 40:							break;
 					}
 	}
 					while(opcion!=90);	
@@ -207,66 +204,102 @@ void m_mantenimiento() {
 }
 
 //(para separar procedimientos)****************************************************************************************************************************************************************
+
 void agregar_articulos (){
 	
-	FILE *f; //fichero almacen	
+	FILE * pfichero; //inicializar ficheo
+	int contador=0, i, j;
+	struct articulos vector[100];
 	char opc;
-	
-	f = fopen("almacen.txt", "a");   // abrimos el fichero para añadir datos si no existe lo crea.
-	if (f == NULL) {
-		printf("No se encuentra el fichero\n");
-		}
 
-	tarticulos articulos;
-	do {
-	system("cls"); 
- 	banner();
-		
-		
-		printf("\n\t\t\t******   CAPTURA DATOS ALMACEN (ARTICULOS)      ******");
-		printf("\n\t\t\t------------------------------------------------------\n");		
-	fflush(stdin);
-		printf("\t\t\t------ INICIALIZANDO (ESCRIBA EN MAYUSCULAS)  --------");
-		printf("\n\n\t* CODIGO ARTICULO: [        ]\b\b\b\b\b\b\b\b\b"); gets(articulos.cod_art);
-	fflush(stdin);		
-		printf("\n\t* DESCRIPCION: [                    ]\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"); gets(articulos.descripcion);
-		printf("\n\t\t\t\t\t\tXX_ _ _ _-->PASILLO                // Codifique la\n\t\t\t\t\t\t _ _XX_ _-->ESTANTERIA             // ubicacion usando  \n\t\t\t\t\t\t_ _ _ _XX-->FILA                   // esta regla. ");
-		printf("\n\t* UBICACION: [      ]\b\b\b\b\b\b\b"); gets(articulos.ubicacion );
-		fflush(stdin);
-		printf("\n\t* EXISTENCIAS: [      ]\b\b\b\b\b\b\b"); scanf("%i", &articulos.existencias);
-		printf("\n\t* NIVEL MINIMO: [      ]\b\b\b\b\b\b\b");scanf("%i", &articulos.nivel_min);
-		printf("\n\t* PRECIO :[      ]\b\b\b\b\b\b\b "); scanf("%f", &articulos.precio);
-		printf("\n\t* UNIDADES MINIMAS PARA PEDIDO: [      ]\b\b\b\b\b\b\b"); scanf("%i", &articulos.unid_pedido_min);
-	fflush(stdin);		
-		printf("\n\n\t* FABRICANTE/PROVEEDOR: [                    ]\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"); gets(articulos.fabricante);
-						
-	fwrite(&articulos, sizeof(tarticulos),1,f);	
-		
-		
-		
-	printf("\n\n\t\tPuse 'S' para aniadir mas registros y cualquier tecla para guardar y salir: %c");
-	scanf("%c",&opc);
-	}while( opc=='S'|| opc=='s'); //Si no tecleamos "s/S" sale al menu.//
-		
-	fclose(f); // Se cierra el fichero
+	pfichero = fopen("almacen.txt", "r");
 	
-	system("pause");
+	if (pfichero == NULL) {
+		printf("No se encuentra el fichero\n");
+	
+	}
+		while (fscanf(pfichero, "%i %s %i %i %i %i %f", &vector[contador].cod_art, &vector[contador].descripcion, &vector[contador].ubicacion, &vector[contador].existencias, &vector[contador].nivel_min, &vector[contador].unid_pedido_min, &vector[contador].precio) != EOF)
+		 {
+		printf("%i %s %i %i %i %i %.2f\n", vector[contador].cod_art, vector[contador].descripcion, vector[contador].ubicacion, vector[contador].existencias, vector[contador].nivel_min, vector[contador].unid_pedido_min);
+		contador++;
+		}
+		printf("Contador de articulos: %d\n", contador);
+	fclose(pfichero);
+	
+	do {
+		system("cls");	
+		banner();
+		printf("\n\t\t\t******   CAPTURA DATOS ALMACEN (ARTICULOS)      ******");  printf("         (Articulos encontrados: %d)", contador); 
+			printf("\n\t\t\t------------------------------------------------------\n");		
+	fflush(stdin);
+			printf("\t\t\t     ------ (ESCRIBA EN MAYUSCULAS)  --------");
+			printf("\n\n\t* CODIGO ARTICULO: [        ]\b\b\b\b\b\b\b\b\b"); scanf("%i", &vector[contador].cod_art);
+	fflush(stdin);		
+			printf("\n\t* DESCRIPCION: [                                  ]\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"); gets(vector[contador].descripcion);
+			
+		
+		
+		for (j =0 ; j<35; j++) {
+		
+		if ((vector[contador].descripcion)[j] == ' ') {
+			(vector[contador].descripcion)[j] = '_';
+		}
+		}
+	
+		fflush(stdin);	
+		printf("\n\t\t\t\t\t\tXX_ _ _ _-->PASILLO                // Codifique la\n\t\t\t\t\t\t _ _XX_ _-->ESTANTERIA             // ubicacion usando  \n\t\t\t\t\t\t_ _ _ _XX-->FILA                   // esta regla. ");
+		printf("\n\t* UBICACION: [      ]\b\b\b\b\b\b\b"); scanf("%i", &vector[contador].ubicacion);
+	fflush(stdin);
+		printf("\n\t* EXISTENCIAS: [      ]\b\b\b\b\b\b\b"); scanf("%i", &vector[contador].existencias);
+		printf("\n\t* NIVEL MINIMO: [      ]\b\b\b\b\b\b\b");scanf("%i", &vector[contador].nivel_min);
+		printf("\n\t* UNIDADES MINIMAS PARA PEDIDO: [      ]\b\b\b\b\b\b\b"); scanf("%i", &vector[contador].unid_pedido_min);
+		printf("\n\t* PRECIO :[      ]\b\b\b\b\b\b\b "); scanf("%f", &vector[contador].precio);
+
+
+	
+	contador++;
+	
+	
+	printf("\n\n\t\tPuse 'S' para aniadir mas registros y cualquier tecla para guardar y salir: %c");
+	fflush(stdin);
+	scanf("%c",&opc);
+	}	
+	while( opc=='S'|| opc=='s'); //Si no tecleamos "s/S" sale al menu.//
+	
+	
+	pfichero = fopen("almacen.txt", "w");
+
+	
+	if (pfichero == NULL) {
+		printf("No se ha podido crear el fichero\n");
+	
+	}
+	
+
+	for (i=0; i < contador; i++) {
+		fprintf(pfichero, "%i %s %i %i %i %i %f\n", vector[i].cod_art, vector[i].descripcion, vector[i].ubicacion, vector[i].existencias, vector[i].nivel_min, vector[i].unid_pedido_min, vector[i].precio);// Escribo los datos en el fichero abierto
+	}
+	
+	fclose(pfichero); // Se cierra el fichero
 	
 }
 
 //(para separar procedimientos)****************************************************************************************************************************************************************
+
+
 void listar_productos(){
 	
-	FILE *f; //fichero almacen	
+	FILE *pfichero; //fichero almacen	
+	int contador=0, i, j;
+	struct articulos vector[100];
+	
+	pfichero= fopen("almacen.txt", "r");   // abrimos el fichero en modo lectura/
+			if (pfichero== NULL) {
+				printf("No se encuentra el fichero\n");
+			
+			}
 	
 	
-	f = fopen("almacen.txt", "r");   // abrimos el fichero en modo lectura/
-	if (f == NULL) {
-		printf("No se encuentra el fichero\n");
-	
-	}
-	
-	tarticulos articulos;
 	
 	system("cls"); 
 		printf("\t\t\t\t\t=======================================================");
@@ -274,63 +307,65 @@ void listar_productos(){
 		printf("\n\t\t\t\t\t=======================================================\n\n");
 		
 		
-		printf("COD-ART.         DESCRIPCION             UBICACION    EXISTENCIAS   NIVEL MIN.   PEDIDO MIN.      PRECIO            FABRICANTE\n");
+		printf("COD-ART.              DESCRIPCION                       UBICACION    EXISTENCIAS   NIVEL MIN.   PEDIDO MIN.      PRECIO            \n");
 		printf ("======================================================================================================================================\n\n");
-	fread(&articulos, sizeof(tarticulos),1,f); 
-	while (!feof (f))
-
-	// lee los campos del fichero y los coloca con la tabulacion a izd y dch que le indicamos para que no se pisen y queden alineados//	
-{
-		printf("%-13s %-26s %-8s %11i %12i %13i %15.2f %28s", articulos.cod_art, articulos.descripcion, articulos.ubicacion, articulos.existencias, articulos.nivel_min, articulos.unid_pedido_min, articulos.precio, articulos.fabricante);
-		printf ("\n-------------------------------------------------------------------------------------------------------------------------------------\n");
-	
-	fread(&articulos, sizeof(tarticulos),1,f); 
+		while (fscanf(pfichero, "%i %s %i %i %i %i %f", &vector[contador].cod_art, &vector[contador].descripcion, &vector[contador].ubicacion, &vector[contador].existencias, &vector[contador].nivel_min, &vector[contador].unid_pedido_min, &vector[contador].precio) != EOF)
+		 {
+		printf("%-8i     %-35s        %i      %8i    %8i     %8i             %-.2f    \n", vector[contador].cod_art, vector[contador].descripcion, vector[contador].ubicacion, vector[contador].existencias, vector[contador].nivel_min, vector[contador].unid_pedido_min,vector[contador].precio);
+		printf ("----------------------------------------------------------------------------------------------------------------------------------\n");
+		contador++;
+		}
 	
 	
 	
-} 
+ 
 			
-	fclose(f); // Se cierra el fichero
+	fclose(pfichero); // Se cierra el fichero
 	
 		system("pause");
+
+ // en estudio intentar exportar esta consulta a un fichero txt para "imprimir"
 }
+
 //(para separar procedimientos)****************************************************************************************************************************************************************
-void copia_seguridad()
-{
+void copia_seguridad(){
 	
 	char letra;
-	FILE *f, *aux; 
+	FILE *pfichero, *aux; 
 	char nombre_fichero[10] ;
 		    
     system("cls");
+    	
 	banner();
-    
+        
 	printf("\n\n\n \t\tEsta funcion realiza una copia de seguridad de los datos de la aplicacion que  podra\n  ");
 	printf(" \t\t ser consultada y recuperada en cualquier momento desde la propia aplicacion.\n\n\n");	
 	printf("\t\t\t\t\t SUGERENCIA  \n\n\t\tPUEDE NOMBRAR EL FICHERO COPIA, CON LA FECHA Y EXTENSION *.txt: \n\n\t\t\t\t <<<< ejemplo:  23MAR20.txt >>>> \n\n\n\n");
 	printf("\t\t Escriba el nombre fichero copia de seguridad:  [             ]\b\b\b\b\b\b\b\b\b\b\b\b\b\b ");
     fflush(stdin);
-	gets(nombre_fichero);
-   
-    f = fopen("almacen.txt", "r"); //abrimos en modo lectura
-    if (f == NULL) {
-		printf("No se encuentra el fichero de datos\n");
-	
-}
-    aux = fopen("auxiliar.txt", "w"); //abrimos en modo crear y escritura 
     
-    letra=getc(f);  //getc lee un solo carácter del archivo en la posición actual y aumenta el puntero de archivo "f" para leer el siguiente //
-    while (feof(f)==0) // getc lee hata que encuentra el final del fichero//
-    {
-        putc(letra,aux); // funciona como getc y es equivalente a putchar escribiendo en el otro fichero caracter a carater hasta el eof.
-        
-        letra=getc(f);
-    }
- 
-    fclose(f); //cerramos los dos ficheros//
-    fclose(aux);
+		gets(nombre_fichero);
+   
+	    pfichero = fopen("almacen.txt", "r"); //abrimos en modo lectura
+			    if (pfichero == NULL) {
+					printf("No se encuentra el fichero de datos\n");
+				
+			}
+	    aux = fopen("auxiliar.txt", "w"); //abrimos en modo crear y escritura 
+	    
+	    letra=getc(pfichero);  //getc lee un solo carácter del archivo en la posición actual y aumenta el puntero de archivo "f" para leer el siguiente //
+	    while (feof(pfichero)==0) // getc lee hata que encuentra el final del fichero//
+	    {
+	        putc(letra,aux); // funciona como getc y es equivalente a putchar escribiendo en el otro fichero caracter a carater hasta el eof.
+	        
+	        letra=getc(pfichero);
+	    }
+	 
+   		fclose(pfichero); //cerramos los dos ficheros//
+        fclose(aux);
     
     rename ("auxiliar.txt", ("%s",nombre_fichero)); // cambiamos el nombre "auxiliar"  por el que le hemos puesto nosotros en la variable "nombre_fichero" //
+ 
  printf("\n\n\n\t !!La copia de seguridad se realizo con exito con el nombre: ");
  printf ("%s !!\n\n\n",nombre_fichero);
  
@@ -341,16 +376,76 @@ void copia_seguridad()
 
 
 //(para separar procedimientos)****************************************************************************************************************************************************************
+void inicializar_almacen(){
+	
+	FILE * pfichero;
+	int contador=0, i, j;
+	struct articulos vector[100];
+	char opc;
 
+//crea el fichero txt de datos para poder hacer una carga de los mismos. BORRA LOS DATOS ANTERIORES si los hay.
 
+	system("cls"); //borra pantalla para que no se monte un menu sobre otro//
+	system ("color 0c");  //blanco sobre negro//
+	
+	banner();
+       
+    printf("\n\n\n \t\tEsta funcion inicializa el fichero de los datos de la aplicacion, los datos\n  ");
+	printf(" \t\t anteriores si los hay seran borrados .\n\n\n");	
+	printf("\t\t\t\t       !!!!!!   P E L I G R O    !!!!!!\n\n\t\t\t\t\t     USAR CON PRECAUCION \n\n\t\t\t\t \n\n\n\n");
+	system("pause");
 
+	system("cls"); 
+	system ("color 0f");  
+	banner();
+
+		printf("\n\t\t\t******   CAPTURA DATOS ALMACEN (ARTICULOS)      ******");
+		printf("\n\n\t\t\t------------------------------------------------------\n");		
+	fflush(stdin);
+		printf("\t\t\t------ INICIALIZANDO (ESCRIBA EN MAYUSCULAS)  --------");
+		printf("\n\n\t* CODIGO ARTICULO: [        ]\b\b\b\b\b\b\b\b\b");  scanf("%i", &vector[contador].cod_art);
+	fflush(stdin);		
+		printf("\n\t* DESCRIPCION: [                                  ]\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"); gets(vector[contador].descripcion);
+			
+			for (j =0 ; j<35; j++) {
+				
+				if ((vector[contador].descripcion)[j] == ' ') {
+					(vector[contador].descripcion)[j] = '_';
+				}
+				}
+		
+		
+		printf("\n\t\t\t\t\t\tXX_ _ _ _-->PASILLO                // Codifique la\n\t\t\t\t\t\t _ _XX_ _-->ESTANTERIA             // ubicacion usando  \n\t\t\t\t\t\t_ _ _ _XX-->FILA                   // esta regla. ");
+		printf("\n\t* UBICACION: [      ]\b\b\b\b\b\b\b"); scanf("%i", &vector[contador].ubicacion);
+		fflush(stdin);
+		printf("\n\t* EXISTENCIAS: [      ]\b\b\b\b\b\b\b"); scanf("%i", &vector[contador].existencias);
+		printf("\n\t* NIVEL MINIMO: [      ]\b\b\b\b\b\b\b");scanf("%i", &vector[contador].nivel_min);
+		printf("\n\t* UNIDADES MINIMAS PARA PEDIDO: [      ]\b\b\b\b\b\b\b"); scanf("%i", &vector[contador].unid_pedido_min);
+		printf("\n\t* PRECIO :[      ]\b\b\b\b\b\b\b "); scanf("%f", &vector[contador].precio);
+
+	
+	
+		contador++;
+	
+	pfichero = fopen("almacen.txt", "w");
+
+	
+	if (pfichero == NULL) {
+		printf("No se ha podido crear el fichero\n");
+	
+	}
+
+	for (i=0; i < contador; i++) {
+		fprintf(pfichero, "%i %s %i %i %i %i %f\n", vector[i].cod_art, vector[i].descripcion, vector[i].ubicacion, vector[i].existencias, vector[i].nivel_min, vector[i].unid_pedido_min, vector[i].precio);
+	}
+	
+	fclose(pfichero); 
+	
+		system("pause");
+	
+	
+	
+					}
+	
 //(para separar procedimientos)****************************************************************************************************************************************************************
-
-
-
-
-
-//(para separar procedimientos)****************************************************************************************************************************************************************
-
-
 

@@ -12,6 +12,7 @@ Sergio Torres Madrazo;sergiotorresmadrazo y Alejandro Tejedor Moreno ;alejandrot
 
 Realizar una aplicación  informatica para gestión de un almacén de productos gestionada por menús.
 
+* inicializar la aplicacion creando el fichero de datos.
 * Dar de alta artículos con descripción y ubicación en el almacén.
 * Fijar un nivel mínimo por articulo para reponerlo .
 * Poder realizar  un control periódico  de inventario.
@@ -26,4 +27,4 @@ Realizar una aplicación  informatica para gestión de un almacén de productos 
 
 ## Incidencias.
 
-*Hemos tenido problemas en la gestión de ficheros tipo .txt, ya que si lo abres fuera de la aplicación no se ve "en claro" pero dentro de esta funciona perfectamente hasta el momento. Seguiremos buscando la solución.
+*Hemos tenido problemas en la gestión de ficheros tipo .txt, ya que los espacios en un campo char del struct nos generaban un salto de linea al recuperar la informacion y corropian el programa, hemos probado varias cosas sin resultdos, por lo que hemos optado en sustitur los espacios entre palabras del string por '_', de momento de una forma provisional funciona de forma aceptable, seguimos buscando una posible solucion. 
