@@ -20,9 +20,9 @@ void ordenar_articulo();
 void buscar_articulo();
 void impri_ficha_almacen();
 void impri_almacen();
-
-
-
+void inventario_almacen();
+void verifi_inventario();
+void art_bajo_nivel();
 
 struct articulos {
 	int cod_art;
@@ -60,7 +60,7 @@ f = blanco brillante
 
 	system("cls"); //borra pantalla para que no se monte un menu sobre otro//
 	
-	contrasenia();
+//	contrasenia();
 	system ("color 0f");  //blanco sobre negro//
 	m_principal();
 		return 0;
@@ -166,16 +166,16 @@ void m_inventario() {
 		do{
 			banner();
 	
-			printf("\n\n\n\t\t\tMENU INVENTARIO \n\t\t\t=============== \n\n\n\t\t10-Listado de productos por ubicacion en almacen (no implementadado).\n\n \t\t20-Actualizar / modificar inventario(no implementadado) .");
-			printf("\n\n \t\t30-Articulos por debajo de su nivel minimo (no implementadado).\n\n \t\t40-Pedido automatico de articulos por debajo de su nivel de inventario (no implementadado) .\n\n \t\t\n\n\n\t\t90-VOLVER MENU ANTERIOR \n");
+			printf("\n\n\n\t\t\tMENU INVENTARIO \n\t\t\t=============== \n\n\n\t\t10-Listado de productos por ubicacion en almacen .\n\n \t\t20-Imprimir listado por ubicacion para realizar inventario.");
+			printf("\n\n \t\t30-Articulos por debajo de su nivel minimo.\n\n \t\t40-Pedido automatico de articulos por debajo de su nivel de inventario. \n\n \t\t\n\n\n\t\t90-VOLVER MENU ANTERIOR \n");
 			printf("\n---------------------------------------------------------------------------------------------");
 			printf("\nTeclee la opcion deseada:  [  ]\b\b\b"); //conseguimos meter la opccion entre llaves y mejorar el entorno visual//
 			scanf(" %i",&opcion);
 				switch(opcion)
 			{
-					case 10: 		break;
-					case 20: 		break;
-					case 30: 		break;
+					case 10: inventario_almacen();		break;
+					case 20: verifi_inventario();		break;
+					case 30: art_bajo_nivel();			break;
 					case 40: 		break;
 					}	
 	}
@@ -611,7 +611,7 @@ void impri_almacen(){
 	FILE *pfichero;
 	FILE *pfichero_aux;
 	int contador=0, i, j;
-	struct articulos vector[100]; 
+	struct articulos vector[NA]; 
 	struct articulos aux;
 	
 	   
@@ -689,10 +689,10 @@ fuente https://algoritmosyalgomas.com/login-en-c-con-clave-en-asteriscos-y-3-int
         system("cls");
         banner();
         
-		printf("\n\n\n\n\t\t\t\tINICIO DE SESION");
-        printf("\n\t\t\t\t===============\n");
+		printf("\n\n\n\n\t\t\t\t\tINICIO DE SESION");
+        printf("\n\t\t\t\t\t===============\n");
         contador_intento--;
-	   	printf("\n\n\t\t\t***   Le quedan %i de 3 intentos.   *** ", contador_intento);
+	   	printf("\n\n\t\t\t\t***   Le quedan %i de 3 intentos.   *** ", contador_intento);
 	    printf("\n\n\n\n\tTECLEE SU USUARIO: ");
         gets(usuario);
         printf("\n\n\tTECLEE SU PASSWORD: ");
@@ -733,7 +733,7 @@ fuente https://algoritmosyalgomas.com/login-en-c-con-clave-en-asteriscos-y-3-int
 	        system("cls");
 			system ("color 0a"); 
 			banner();
-			printf("\n\n\n\n\t\t     *****   BIENVENIDO A LA APLICACION   *****\n\n\n\n");
+			printf("\n\n\n\n\t     *****   BIENVENIDO A LA APLICACION  GESTION DE ALMACEN  *****\n\n\n\n");
 			printf("\n\n\n\nPulse una tecla para continuar");
 	       	system("pause");
 	        
@@ -751,12 +751,189 @@ fuente https://algoritmosyalgomas.com/login-en-c-con-clave-en-asteriscos-y-3-int
 	
 //(para separar funciones)****************************************************************************************************************************************************************	
 	
+	void inventario_almacen(){
+	FILE * pfichero;
+	int contador=0, i, j;
+	float import_art_al=0, impor_total=0; 
+	struct articulos vector[NA]; 
+	struct articulos aux;
 	
+	   
+	pfichero = fopen("almacen.txt", "r");
 	
+	if (pfichero == NULL) {
+		printf("No se encuentra el fichero\n");
+		}
+		while (fscanf(pfichero, "%d %s %d %d %d %d %f", &vector[contador].cod_art, &vector[contador].descripcion, &vector[contador].ubicacion, &vector[contador].existencias, &vector[contador].nivel_min, &vector[contador].unid_pedido_min, &vector[contador].precio) != EOF)
+		 {
+		contador++;
+		}
+	fclose(pfichero);
+
+// ordenamos el estruct usando como indice el campo ubicacion
+			for (i = 0; i < contador - 1; i++)
+			   for (j = i + 1; j < contador; j++){
+			      
+			      if ((vector[i].ubicacion) > (vector[j].ubicacion) ){
+  
+		        aux = vector[i];
+		        vector[i] = vector[j];
+		      	vector[j] = aux;
+      }
+   }
+system("cls");
+printf("\t\t\t\t=======================================================");
+		printf("\n\t\t\t\t\t******   INVENTARIO ALMACEN        ******");
+		printf("\n\t\t\t\t=======================================================\n\n");
+printf("UBICACION    COD-ART.          DESCRIPCION                             EXISTENCIAS      PRECIO          VALOR ART.  \n");
+		printf ("==================================================================================================================\n");
 	
-	
+for (i=0; i < contador; i++) {
+		import_art_al= (vector[i].existencias)*(vector[i].precio); 
+			printf(" %06d      %08d     %-35s        %8d        %8.2f          %8.2f \n",vector[i].ubicacion, vector[i].cod_art, vector[i].descripcion,  vector[i].existencias,vector[i].precio, import_art_al );
+				printf ("------------------------------------------------------------------------------------------------------------------\n");
+
+		import_art_al= (vector[i].existencias)*(vector[i].precio); 
+		impor_total += import_art_al;
+}
+	printf ("==================================================================================================================\n");
+   printf("\t\t\t\t\t\t\t\t  SUMA TOTAL VALOR ARTICULOS ALMACEN:  %.2f \n", 	impor_total );
+
+
+system("pause"); // paramos y pide pulsar una tecla//
+
+}
 	
 //(para separar funciones)****************************************************************************************************************************************************************	
+
+void verifi_inventario(){
+	FILE * pfichero;
+	FILE *list_pasillo;
+	int contador=0, i, j;
+	int pasillo=0, min=0, max=0; 
+	struct articulos vector[NA]; 
+	struct articulos aux;
+	char fichero[15]; //Nombre del fichero para guardar la consulta *.txt
+	char opcion;  
+	
+	
+	
+	pfichero = fopen("almacen.txt", "r");
+	
+	if (pfichero == NULL) {
+		printf("No se encuentra el fichero\n");
+
+	}
+		while (fscanf(pfichero, "%d %s %d %d %d %d %f", &vector[contador].cod_art, &vector[contador].descripcion, &vector[contador].ubicacion, &vector[contador].existencias, &vector[contador].nivel_min, &vector[contador].unid_pedido_min, &vector[contador].precio) != EOF)
+		 {
+	contador++;
+		}
+	fclose(pfichero);
+
+// ordenamos el estruct usando como indice el campo ubicacion
+			for (i = 0; i < contador - 1; i++)
+			   for (j = i + 1; j < contador; j++){
+			      
+			      if ((vector[i].ubicacion) > (vector[j].ubicacion) ){
+  
+		        aux = vector[i];
+		        vector[i] = vector[j];
+		      	vector[j] = aux;
+      }
+   }
+   
+   system("cls");
+			banner();	
+   	   		printf("\n\n\n\t\t EN ESTE MENU UD. CONSEGUIRA IMPRIMIR LA RELACION  ARTICULOS EXISTENTES \n\t\t EN UN DETERMINADO PASILLO DEL ALMACEN,");
+	   		printf(" CON  LO  QUE PODRA VERIFICAR SI  \n\t\t SE  CORRESPONDE  CON  LAS  EXISTENCIAS  REALES, DEBERA PONER NOMBRE AL  \n\t\t FICHERO A IMPRIMIR ");
+	  		printf("  CON LA TERMINACION *.txt   \n\n\t\t\t\t ***** EJEMPLO:  'PASILLO 10.txt' *****");
+   
+	   printf("\n\n\n\t* TECLEE EL PASILLO DONDE QUIERE HACER LA REVISION: [  ]\b\b\b"); scanf("%d", &pasillo);
+	   printf("\n\n\t* TECLEE EL NOMBRE CON EL QUE QUIERE GUARDAR LA CONSULTA : [               ]\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
+		fflush(stdin);
+		
+	  scanf("%s", &fichero);
+     max = (pasillo * 10000);
+     min = (max + 9999); 
+   
+   list_pasillo= fopen("l_pasillo.txt", "w"); //creamos un fichero nuevo para guardar nuestros datos
+	
+	if (list_pasillo == NULL) {
+		printf("No se ha podido crear el fichero\n");
+   
+    	}
+			fprintf(list_pasillo,"\t\t\t===================================================");  
+			fprintf(list_pasillo,"\n\t\t\t******   INVENTARIO ALMACEN  PASILLO %d      ******", pasillo);
+			fprintf(list_pasillo,"\n\t\t\t===================================================\n\n");
+			fprintf(list_pasillo,"UBICACION    COD-ART.          DESCRIPCION                             EXISTENCIAS    CANTIDAD ACTUAL.  \n");
+			fprintf (list_pasillo,"========================================================================================================\n");
+	
+		for (i=0; i < contador; i++) 
+			
+			 if (vector[i].ubicacion>=max && vector[i].ubicacion<=min)
+{
+		
+			fprintf(list_pasillo," %06d      %08d     %-35s        %8d          [           ]\n",vector[i].ubicacion, vector[i].cod_art, vector[i].descripcion,  vector[i].existencias);
+				fprintf (list_pasillo,"--------------------------------------------------------------------------------------------------------\n");
+	}
+ 
+	fclose(list_pasillo); // Se cierra el fichero
+	rename ("l_pasillo.txt", ("%s",fichero)); // cambiamos el nombre "l_pasillor"  por el que le hemos puesto nosotros en la variable "fichero" //
+
+		printf("\n\n\n \t\t SE HA IMPRESO CORRECTAMENTE UN FICHERO CON EL NOMBRE :  %s \n\n", fichero);
+
+	system("pause"); // paramos y pide pulsar una tecla//
+}
+
+//(para separar funciones)****************************************************************************************************************************************************************
+
+void art_bajo_nivel(){
+	FILE * pfichero;
+	int contador=0, i=0, faltan=0;
+	struct articulos vector[100]; 
+	int exis=0, nivel=0;
+	
+	   
+		pfichero = fopen("almacen.txt", "r");
+	
+	if (pfichero == NULL) {
+		printf("No se encuentra el fichero\n");
+	}
+		while (fscanf(pfichero, "%d %s %d %d %d %d %f", &vector[contador].cod_art, &vector[contador].descripcion, &vector[contador].ubicacion, &vector[contador].existencias, &vector[contador].nivel_min, &vector[contador].unid_pedido_min, &vector[contador].precio) != EOF)
+		 {
+		contador++;
+		}
+		fclose(pfichero);
+		banner();
+	   printf("\n\t\t\t******   ARTICULOS POR DEBAJO DE SU NIVEL EN ALMACEN       ******");  
+			printf("\n\t\t\t------------------------------------------------------\n");		
+	printf("COD-ART.          DESCRIPCION                             EXISTENCIAS     NIVEL MINIMO         DIFERENCIA.  \n");
+		printf ("==================================================================================================================\n");
+	
+	while(i<contador){
+		
+	exis =	vector[i].existencias ;  
+    nivel =  vector[i].nivel_min ; 
+	faltan = (vector[i].nivel_min )-(vector[i].existencias);
+		if(exis < nivel){
+			
+			
+			printf("%08d     %-35s        %8d         %8d             %8d \n", vector[i].cod_art, vector[i].descripcion,  vector[i].existencias, vector[i].nivel_min, faltan);
+			printf ("------------------------------------------------------------------------------------------------------------------\n");
+		}
+		i++;
+	}	
+	
+		
+	system("pause"); // paramos y pide pulsar una tecla//
+}
+
+
+
+
+
+
+//(para separar funciones)****************************************************************************************************************************************************************
 	
 	
 
