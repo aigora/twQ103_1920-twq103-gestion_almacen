@@ -6,15 +6,6 @@
 10000031     CINTA_METRICA_8M_M3                        501241             5          10           10             25.00    
 10200033     BOBINA_CABLE_8_HILOS_20M                   010811            50          60           15             22.04    
 12000340     TUERCA_M-5_INOX                            831202         35000         500          250             0.20    
-12345874     NIVEL_LASER_ATT                            102450             3           1            1             250.40    
-30001004     CABLE_USB_2M                               200144            15           2            1             5.10    
-40000125     CAJA_250X200MM_PVC                         120550             1           2            2             20.40    
-43650014     BROCA_DIAMANTE_20MM                        120102            50           5            2             50.50    
-45124440     DESMONTADOR_LM25                           417801             5           1            1             30.00    
-50001001     TORNILLO_M6_ABS                            100200           550          50           50             1.25    
-55201100     FILTRO_SINTETICO                           019911            20          21            5             12.60    
-55211000     CRISTAL_DE_PROTECCION_20X50                014588             8          10            3             25.40    
-60124500     GRAPAS_N_20                                230144          2000         500          100             0.50    
 74125001     ACEITE_GRAFITO_UTK                         201001            20           5            2             24.50    
 74152210     CORTADOR_PLASMA_MIG-21                     530077             2           1            1             5000.00    
 75490006     BROCA_M_6                                  751003             2           5            2             7.80    

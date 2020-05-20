@@ -1,0 +1,27 @@
+
+
+				SOLUCIONES INFORMATICAS U. P. M. 
+				--------------------------------
+			
+		Sergio Torres Madrazo & Alejandro Tejedor Moreno (Copyright 2020) 
+=========================================================================================
+			******  INFORME ARTICULO EN ALMACEN       ******
+			------------------------------------------------------
+
+
+	* CODIGO ARTICULO:  60124500
+
+
+	* DESCRIPCION: GRAPAS_N_20
+
+
+				--> PASILLO:     23
+	* UBICACION:  		--> ESTANTERIA:  01
+				--> FILA:        44
+
+	* EXISTENCIAS: 2000
+
+	* NIVEL MINIMO: 500
+
+	* UNIDADES MINIMAS PARA PEDIDO: 100
+	* PRECIO : 0.50 €
